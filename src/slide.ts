@@ -24,7 +24,7 @@ import {
 } from './core-interfaces'
 import * as genObj from './gen-objects'
 
-export default class Slide {
+class Slide {
 	private _setSlideNum: Function
 
 	public addSlide: Function
@@ -202,3 +202,5 @@ export default class Slide {
 		return this
 	}
 }
+
+export = Slide

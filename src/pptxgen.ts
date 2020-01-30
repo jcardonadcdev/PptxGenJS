@@ -44,7 +44,7 @@
  */
 
 import * as JSZip from 'jszip'
-import Slide from './slide'
+import Slide = require('./slide')
 import { CHART_TYPES, DEF_PRES_LAYOUT_NAME, DEF_PRES_LAYOUT, DEF_SLIDE_MARGIN_IN, JSZIP_OUTPUT_TYPE, SCHEME_COLOR_NAMES, WRITE_OUTPUT_TYPE, EMU } from './core-enums'
 import { ILayout, ISlide, ISlideLayout, ISlideMasterOptions, ISlideNumber, ITableToSlidesOpts, IUserLayout } from './core-interfaces'
 import { PowerPointShapes } from './core-shapes'
@@ -56,7 +56,66 @@ import * as genXml from './gen-xml'
 
 const VERSION = '3.1.0-beta'
 
-export default class PptxGenJS {
+class PptxGenJS {
+	constructor() {
+		// Set available layouts
+		this.LAYOUTS = {
+			LAYOUT_4x3: { name: 'screen4x3', width: 9144000, height: 6858000 } as ILayout,
+			LAYOUT_16x9: { name: 'screen16x9', width: 9144000, height: 5143500 } as ILayout,
+			LAYOUT_16x10: { name: 'screen16x10', width: 9144000, height: 5715000 } as ILayout,
+			LAYOUT_WIDE: { name: 'custom', width: 12192000, height: 6858000 } as ILayout,
+		}
+
+		// Core
+		this._author = 'PptxGenJS'
+		this._company = 'PptxGenJS'
+		this._revision = '1' // Note: Must be a whole number
+		this._subject = 'PptxGenJS Presentation'
+		this._title = 'PptxGenJS Presentation'
+		// PptxGenJS props
+		this._presLayout = {
+			name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
+			width: this.LAYOUTS[DEF_PRES_LAYOUT].width,
+			height: this.LAYOUTS[DEF_PRES_LAYOUT].height,
+		}
+		this._rtlMode = false
+		//
+		this.slideLayouts = [
+			{
+				presLayout: this._presLayout,
+				name: DEF_PRES_LAYOUT_NAME,
+				number: 1000,
+				slide: null,
+				data: [],
+				rels: [],
+				relsChart: [],
+				relsMedia: [],
+				margin: DEF_SLIDE_MARGIN_IN,
+				slideNumberObj: null,
+			},
+		]
+		this.slides = []
+		this.masterSlide = {
+			addChart: null,
+			addImage: null,
+			addMedia: null,
+			addNotes: null,
+			addShape: null,
+			addTable: null,
+			addText: null,
+			//
+			presLayout: this._presLayout,
+			name: null,
+			number: null,
+			data: [],
+			rels: [],
+			relsChart: [],
+			relsMedia: [],
+			slideLayout: null,
+			slideNumberObj: null,
+		}
+	}
+
 	// Property getters/setters
 
 	/**
@@ -188,65 +247,6 @@ export default class PptxGenJS {
 	private _presLayout: ILayout
 	public get presLayout(): ILayout {
 		return this._presLayout
-	}
-
-	constructor() {
-		// Set available layouts
-		this.LAYOUTS = {
-			LAYOUT_4x3: { name: 'screen4x3', width: 9144000, height: 6858000 } as ILayout,
-			LAYOUT_16x9: { name: 'screen16x9', width: 9144000, height: 5143500 } as ILayout,
-			LAYOUT_16x10: { name: 'screen16x10', width: 9144000, height: 5715000 } as ILayout,
-			LAYOUT_WIDE: { name: 'custom', width: 12192000, height: 6858000 } as ILayout,
-		}
-
-		// Core
-		this._author = 'PptxGenJS'
-		this._company = 'PptxGenJS'
-		this._revision = '1' // Note: Must be a whole number
-		this._subject = 'PptxGenJS Presentation'
-		this._title = 'PptxGenJS Presentation'
-		// PptxGenJS props
-		this._presLayout = {
-			name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
-			width: this.LAYOUTS[DEF_PRES_LAYOUT].width,
-			height: this.LAYOUTS[DEF_PRES_LAYOUT].height,
-		}
-		this._rtlMode = false
-		//
-		this.slideLayouts = [
-			{
-				presLayout: this._presLayout,
-				name: DEF_PRES_LAYOUT_NAME,
-				number: 1000,
-				slide: null,
-				data: [],
-				rels: [],
-				relsChart: [],
-				relsMedia: [],
-				margin: DEF_SLIDE_MARGIN_IN,
-				slideNumberObj: null,
-			},
-		]
-		this.slides = []
-		this.masterSlide = {
-			addChart: null,
-			addImage: null,
-			addMedia: null,
-			addNotes: null,
-			addShape: null,
-			addTable: null,
-			addText: null,
-			//
-			presLayout: this._presLayout,
-			name: null,
-			number: null,
-			data: [],
-			rels: [],
-			relsChart: [],
-			relsMedia: [],
-			slideLayout: null,
-			slideNumberObj: null,
-		}
 	}
 
 	/**
@@ -612,3 +612,5 @@ export default class PptxGenJS {
 		)
 	}
 }
+
+export = PptxGenJS

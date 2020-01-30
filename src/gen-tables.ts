@@ -3,7 +3,7 @@
  */
 
 import { CRLF, DEF_FONT_SIZE, DEF_SLIDE_MARGIN_IN, EMU, LINEH_MODIFIER, ONEPT, SLIDE_OBJECT_TYPES } from './core-enums'
-import PptxGenJS from './pptxgen'
+import PptxGenJS = require('./pptxgen')
 import { ILayout, ISlideLayout, ITableCell, ITableToSlidesCell, ITableToSlidesOpts, ITableRow, TableRowSlide, ITableCellOpts } from './core-interfaces'
 import { inch2Emu, rgbToHex } from './gen-utils'
 

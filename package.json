@@ -16,8 +16,9 @@
   ],
   "types": "types",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -cw"
+    "build": "webpack",
+    "watch": "rollup -cw",
+    "compile:ts": "tsc"
   },
   "dependencies": {
     "https": "^1.0.0",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/jszip": "^3.1.6",
     "@types/node": "^13.1.2",
+    "amd-webpack-plugin": "^1.0.17",
     "doctoc": "^1.4.0",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
@@ -36,9 +38,10 @@
     "gulp-insert": "^0.5.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
-    "rollup": "^1.27.14",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "typescript": "3.3.1"
+    "ts-loader": "^6.2.1",
+    "typescript": "3.3.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   },
   "repository": {
     "type": "git",
